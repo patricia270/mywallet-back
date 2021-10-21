@@ -20,6 +20,14 @@ async function signUp (req, resp) {
     }
 
     try {
+        const result = await connection.query(`
+            SELECT email FROM users 
+            WHERE email = $1
+        ;`, [email]);
+
+        if (result.rows.length) {
+            return resp.sendStatus(409);
+        }
         const passwordHash = bcrypt.hashSync(password, 10);
         await connection.query(`
             INSERT INTO users 
