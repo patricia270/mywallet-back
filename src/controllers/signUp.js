@@ -16,7 +16,6 @@ async function signUp (req, resp) {
     }).error;
 
     if (error) {
-        console.log(error)
         resp.sendStatus(400);
     }
 
