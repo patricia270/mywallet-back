@@ -19,7 +19,7 @@ async function postInput (req, resp) {
         description
     }).error;
 
-    if(error) {
+    if(error || !value || !description) {
         console.log(error.message)
         resp.sendStatus(400);
     }
@@ -30,6 +30,10 @@ async function postInput (req, resp) {
             WHERE token = $1
         ;`, [token]);
 
+        if (!result.rowCount) {
+            return resp.sendStatus(401);
+        }
+        
         const userId = result.rows[0].userId;
    
         await connection.query(`

@@ -1,4 +1,5 @@
 import connection from "../database/database.js";
+import { validateSignIp } from "../validation/validation.js";
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 
@@ -7,6 +8,15 @@ async function signIn (req, resp) {
         email,
         password
     } = req.body;
+
+    const error = validateSignIp.validate({
+        email,
+        password
+    }).error;
+
+    if (error) {
+        resp.status(400).send(error.message);
+    }
 
     try {
         const result = await connection.query(`
@@ -31,7 +41,7 @@ async function signIn (req, resp) {
             });
             
         } else {
-            resp.sendStatus(401)
+            resp.sendStatus(400)
         }
     }
     catch (error) {

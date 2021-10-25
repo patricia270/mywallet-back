@@ -19,7 +19,7 @@ async function postOutput (req, resp) {
         description
     }).error;
 
-    if(error) {
+    if(error || !value || !description) {
         resp.status(400).send(error.details[0].message);
     }
 
@@ -28,6 +28,10 @@ async function postOutput (req, resp) {
             SELECT "userId" FROM sessions 
             WHERE token = $1
         ;`, [token]);
+
+        if (!result.rowCount) {
+            return resp.sendStatus(401);
+        }
 
         const userId = result.rows[0].userId;
 

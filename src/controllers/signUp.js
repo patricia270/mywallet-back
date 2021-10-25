@@ -37,7 +37,7 @@ async function signUp (req, resp) {
         resp.sendStatus(201);
     }
     catch (error) {
-        resp.status(500).send(error.message);
+        resp.status(500);
     }
 };
 

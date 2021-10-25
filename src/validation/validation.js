@@ -6,6 +6,12 @@ const validateSignUp = Joi.object({
     password: Joi.string().min(8)
 });
 
+const validateSignIn = Joi.object({
+    email: Joi.string().email(),
+    password: Joi.string().min(8)
+});
+
+
 const validateInputAndOutput = Joi.object({
     value: Joi.number().required(),
     description: Joi.string().required()
@@ -13,5 +19,6 @@ const validateInputAndOutput = Joi.object({
 
 export {
     validateSignUp,
+    validateSignIn,
     validateInputAndOutput
 };
