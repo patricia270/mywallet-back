@@ -14,6 +14,9 @@ async function getRegistries (req, resp) {
             WHERE token = $1
         ;`, [token]);
 
+        if (!result.rowCount) {
+            return resp.sendStatus(401);
+        }
         const userId = result.rows[0].userId;
         
         const registriesList = await connection.query(`
