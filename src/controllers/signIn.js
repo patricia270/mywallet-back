@@ -1,5 +1,5 @@
 import connection from "../database/database.js";
-import { validateSignIp } from "../validation/validation.js";
+import { validateSignIn } from "../validation/validation.js";
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 
