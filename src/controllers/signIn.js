@@ -24,9 +24,12 @@ async function signIn (req, resp) {
               ("userId", token)
               VALUES ($1, $2)
             `, [user.id, token]);
+
             resp.send({ 
-                token
+                token,
+                username: user.name
             });
+            
         } else {
             resp.sendStatus(401)
         }

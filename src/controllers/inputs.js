@@ -1,5 +1,5 @@
 import connection from "../database/database.js";
-import { validateInput } from "../validation/validation.js"
+import { validateInputAndOutput } from "../validation/validation.js"
 
 async function postInput (req, resp) {
     const authorization = req.headers['authorization'];
@@ -14,7 +14,7 @@ async function postInput (req, resp) {
         description
     } = req.body;
 
-    const error = validateInput.validate({
+    const error = validateInputAndOutput.validate({
         value,
         description
     }).error;
@@ -25,9 +25,18 @@ async function postInput (req, resp) {
     }
 
     try {
+        const result = await connection.query(`
+            SELECT "userId" FROM sessions 
+            WHERE token = $1
+        ;`, [token]);
+
+        const userId = result.rows[0].userId;
+   
         await connection.query(`
-            INSERT INTO inputs (value, description, input_date) VALUES ($1, $2, NOW())    
-        ;`, [value, description])
+            INSERT INTO registries 
+            ("userId", description, value, register_type_id, date)
+            VALUES ($1, $2, $3, $4, NOW())    
+        ;`, [userId, description, value, 1])
         resp.sendStatus(201);
     } catch (error) {
         console.log(error);

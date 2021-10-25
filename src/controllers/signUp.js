@@ -16,7 +16,7 @@ async function signUp (req, resp) {
     }).error;
 
     if (error) {
-        resp.sendStatus(400);
+        resp.status(400).send(error.message);
     }
 
     try {
@@ -37,8 +37,7 @@ async function signUp (req, resp) {
         resp.sendStatus(201);
     }
     catch (error) {
-        console.log(error)
-        resp.sendStatus(500)
+        resp.status(500).send(error.message);
     }
 };
 
