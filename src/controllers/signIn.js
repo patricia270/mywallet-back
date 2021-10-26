@@ -9,7 +9,7 @@ async function signIn (req, resp) {
         password
     } = req.body;
 
-    const error = validateSignIp.validate({
+    const error = validateSignIn.validate({
         email,
         password
     }).error;
