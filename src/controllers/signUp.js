@@ -1,22 +1,22 @@
-import connection from '../database/database.js';
 import bcrypt from 'bcrypt';
+import connection from '../database/database.js';
 import { validateSignUp } from '../validation/validation.js';
 
-async function signUp (req, resp) {
+async function signUp(req, resp) {
     const {
         name,
         email,
-        password
+        password,
     } = req.body;
 
-    const error = validateSignUp.validate({
+    const { error } = validateSignUp.validate({
         name,
         email,
-        password
-    }).error;
+        password,
+    });
 
     if (error) {
-        resp.status(400).send(error.message);
+        return resp.sendStatus(400);
     }
 
     try {
@@ -35,10 +35,9 @@ async function signUp (req, resp) {
             VALUES ($1, $2, $3);
         `, [name, email, passwordHash]);
         resp.sendStatus(201);
-    }
-    catch (error) {
+    } catch (err) {
         resp.status(500);
     }
-};
+}
 
 export default signUp;
