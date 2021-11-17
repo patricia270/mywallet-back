@@ -1,10 +1,10 @@
-import connection from "../database/database.js";
+import connection from '../database/database.js';
 
-async function signOut (req, resp) {
-    const authorization = req.headers['authorization'];
+async function signOut(req, resp) {
+    const { authorization } = req.headers;
     const token = authorization?.replace('Bearer ', '');
 
-    if(!token) {
+    if (!token) {
         return resp.sendStatus(401);
     }
 

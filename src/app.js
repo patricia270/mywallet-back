@@ -13,10 +13,10 @@ app.use(express.json());
 
 app.post('/sign-up', signUp);
 app.post('/sign-in', signIn);
+app.get('/sign-out', signOut);
+
 app.post('/inputs', postInput);
 app.post('/outputs', postOutput);
 app.get('/registries', getRegistries);
-app.get('/sign-out', signOut);
-
 
 export default app;
